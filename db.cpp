@@ -56,16 +56,15 @@ QList<QString> DbController::getRecordByScript(const QString &script) const
     return records;
 }
 
-DbController::DbController(QObject *parent)
+DbController::DbController(const QString& path, QObject *parent)
     : QObject{parent},
       sdb( QSqlDatabase::addDatabase("QSQLITE"))
 {
-    sdb.setDatabaseName("music_shop.sqlite");
+    sdb.setDatabaseName(path + "\\music_shop.sqlite");
 
     if (!sdb.open()) {
         QMessageBox::warning(0, "ошибка", sdb.lastError().text());
     }
-
 }
 
 
@@ -140,7 +139,9 @@ QList<QSharedPointer<ParentRecord>> DbController::getRecords() const
     QSqlQuery query;
     QList<QSharedPointer<ParentRecord>> records;
 
-    if(!query.exec("SELECT * FROM simple_records;")){
+
+
+    if(!query.exec("SELECT * FROM companies;")){
         QMessageBox::warning(0,"ошибка", query.lastError().text());
     }
     records.reserve(query.size());

@@ -17,7 +17,8 @@ int main(int argc, char *argv[])
             break;
         }
     }
-    MainWindow w;
+    QString path = argc > 1 ? argv[1] : "";
+    MainWindow w(path);
     w.show();
     return a.exec();
 }

@@ -7,9 +7,9 @@
 #include "ParentModel.h"
 
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(const QString& path, QWidget *parent)
     : QMainWindow(parent)
-    , db(new DbController(this))
+    , db(new DbController(path, this))
     , ui(new Ui::MainWindow)
     , listModel(new QStandardItemModel(this))
 {
@@ -33,7 +33,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     ParentModel *recModel = new ParentModel( {"Диск","Дата", "Производитель", "Оптовый адрес", "Количество"},
-                                             [](DbController *db, bool isSubTable, int, QString& ){return isSubTable?QList<QSharedPointer<ParentRecord>>():db->getRecords();},
+
+            [](DbController *db, bool isSubTable, int, QString& )
+            {
+                return isSubTable?QList<QSharedPointer<ParentRecord>>():db->getRecords();
+            },
             [](DbController *db, QMap<QString, QString> &records){db->insertRecords(records);},
     [](DbController *db, QMap<QString, QString> &records){db->updateRecord(records);},
     [](DbController *db, QMap<QString, QString> &records){db->deleteRecords(records);}

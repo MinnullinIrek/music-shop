@@ -24,7 +24,7 @@ private:
 public :
 
 public:
-    explicit DbController(QObject *parent = nullptr);
+    DbController(const QString& path, QObject *parent = nullptr);
     void sell(int recordId, int count);
     QPair<float, float> getPrice(int recordId);
     QSqlQueryModel *selectAnsamblePerformanceCount();
